@@ -22,9 +22,14 @@ class ChatBox extends Component{
     }
 
     getAllMessages = ()=>{
-        axios.get('/chats',{
+        axios({
+            method :'get',
+            url:'https://smart-chat-backend.herokuapp.com/chats',
             params:{
                 room: this.props.room
+            },
+            headers: {
+                'Content-Type': 'application/json'
             }
         })
         .then((messages)=>{
