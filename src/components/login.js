@@ -26,8 +26,13 @@ class Login extends Component{
             status = true
         }
         if(status){
-            axios.get('/login/validate',{
-                params : obj
+            axios({
+                method:'get',
+                url:'https://smart-chat-backend.herokuapp.com/login/validate',
+                params : obj,
+                headers : {
+                    'Content-Type': 'application/json'
+                }
             })
             .then((response)=>{
                 if(response.data.validate){
@@ -48,11 +53,17 @@ class Login extends Component{
         let loginpassword = event.target.elements.loginpassword.value
         let isTrue = this.validate(loginusername,loginpassword);
         if(isTrue){
-            axios.post('/login',{
-                loginusername: loginusername,
-                loginpassword: loginpassword
-            })
-            .then((res)=>{
+            axios({
+                method : 'post',
+                url : 'https://smart-chat-backend.herokuapp.com/login',
+                data : {
+                    loginusername: loginusername,
+                    loginpassword: loginpassword
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((res)=>{
                 if(res.data.isLoginSuccessful === true){
                     localStorage.setItem('token',res.data.token)
                     localStorage.setItem('tokenMethod','Email')
@@ -60,7 +71,8 @@ class Login extends Component{
                     this.props.history.push({
                         pathname: '/home',
                         state: { currentUser: loginusername }
-                    })}
+                    })
+                }
             })
             .catch((err)=>{
                 console.log(err)
