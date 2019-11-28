@@ -1,88 +1,78 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { createUserData } from '../Factories/factories'
-import { checkUsername, checkPassword, checkConfirmPassword, checkEmail} from '../js/validation'
+import { checkUsername, checkPassword, checkConfirmPassword, checkEmail } from '../js/validation'
 import '../css/signUp.css'
 
 class SignUp extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            errorMessage:'',
-            usernameError:'',
-            userEmailError:'',
-            passwordError:'',
-            confirmPasswordError:''
+            errorMessage: '',
+            usernameError: '',
+            userEmailError: '',
+            passwordError: '',
+            confirmPasswordError: ''
         }
     }
 
-    getSignUpData = async(e) => {
+    getSignUpData = async (e) => {
         e.preventDefault()
         let username = e.target.elements.signupusername.value
         let password = e.target.elements.signuppassword.value
         let confirmPassword = e.target.elements.signupconfPassword.value
         let email = e.target.elements.signupemail.value
 
-        const userjson = createUserData(username,password,email,'Email',null)
+        const userjson = createUserData(username, password, email, 'Email', null)
 
-        let isValidData = this.validate(username,email,password,confirmPassword)
-        if(isValidData){
+        let isValidData = this.validate(username, email, password, confirmPassword)
+        if (isValidData) {
             axios({
                 method: 'post',
                 url: 'https://smart-chat-backend.herokuapp.com/signUp',
                 data: userjson,
-                headers:{
+                headers: {
                     'Content-Type': 'application/json'
                 }
-              }).then((res)=>{
+            }).then((res) => {
                 if (res.data.isSignUpSuccessful === true) {
-                            this.props.history.push('/')
-                        }
-                        else {
-                            this.props.setSignUpFailError('User already Existed')
-                            this.props.history.push('/SignUp')
-                        }
-              });
-            // axios.post('/signUp', userjson)
-            // .then((res) => {
-            //     if (res.data.isSignUpSuccessful === true) {
-            //         this.props.history.push('/')
-            //     }
-            //     else {
-            //         this.props.setSignUpFailError('User already Existed')
-            //         this.props.history.push('/SignUp')
-            //     }
-            // })
+                    this.props.history.push('/')
+                }
+                else {
+                    this.props.setSignUpFailError('User already Existed')
+                    this.props.history.push('/SignUp')
+                }
+            });
         }
     }
 
-    validate = (username,email,password,confirmPassword) =>{
+    validate = (username, email, password, confirmPassword) => {
         let isDataTrue = true;
         let usernameError = checkUsername(username.length, username)
-        if(usernameError){
+        if (usernameError) {
             isDataTrue = false;
         }
         this.setState({ usernameError })
 
         let passwordError = checkPassword(password.length, password)
-        if(passwordError){
+        if (passwordError) {
             isDataTrue = false
         }
         this.setState({ passwordError })
 
         let confirmPasswordError = checkConfirmPassword(password, confirmPassword)
-        if(confirmPasswordError){
+        if (confirmPasswordError) {
             isDataTrue = false
         }
         this.setState({ confirmPasswordError })
 
         let userEmailError = checkEmail(email)
-        if(userEmailError){
+        if (userEmailError) {
             isDataTrue = false
         }
         this.setState({ userEmailError })
-        
-        return isDataTrue  
+
+        return isDataTrue
     }
 
     render() {
@@ -102,16 +92,16 @@ class SignUp extends Component {
                                 <p className="sign-in mt-3">Sign In</p>
                                 <form name="signupForm" onSubmit={this.getSignUpData} >
                                     {
-                                        this.state.errorMessage?(
-                                        <p className="signup-error-message">{ this.state.errorMessage }</p>
-                                        ):null
+                                        this.state.errorMessage ? (
+                                            <p className="signup-error-message">{this.state.errorMessage}</p>
+                                        ) : null
                                     }
                                     <div className="signupusername">
                                         <span className="mt-4">Username</span>
                                         {
                                             this.state.usernameError ? (
-                                            <p className="signup-error-message">{ this.state.usernameError }</p>
-                                            ):null
+                                                <p className="signup-error-message">{this.state.usernameError}</p>
+                                            ) : null
                                         }
                                         <input
                                             id="signupusername"
@@ -124,24 +114,24 @@ class SignUp extends Component {
                                         <span className="mt-4">Email</span>
                                         {
                                             this.state.userEmailError ? (
-                                            <p className="signup-error-message">{ this.state.userEmailError }</p>
-                                            ):null
+                                                <p className="signup-error-message">{this.state.userEmailError}</p>
+                                            ) : null
                                         }
-                                        <input 
+                                        <input
                                             id="signupemail"
                                             type="text"
                                             placeholder="Enter your email"
                                             name="signupemail"
                                         />
                                     </div>
-                                    <div className="signuppassword">                                        
+                                    <div className="signuppassword">
                                         <span className="mt-4">Password</span>
                                         {
-                                            this.state.passwordError?(
-                                            <p className="signup-error-message">{ this.state.passwordError }</p>
-                                            ):null
+                                            this.state.passwordError ? (
+                                                <p className="signup-error-message">{this.state.passwordError}</p>
+                                            ) : null
                                         }
-                                        <input 
+                                        <input
                                             id="signuppassword"
                                             type="password"
                                             placeholder="Enter your password"
@@ -151,9 +141,9 @@ class SignUp extends Component {
                                     <div className="signupconfPassword">
                                         <span className="mt-4">Confirm Password</span>
                                         {
-                                            this.state.confirmPasswordError?(
-                                            <p className="signup-error-message">{ this.state.confirmPasswordError }</p>
-                                            ):null
+                                            this.state.confirmPasswordError ? (
+                                                <p className="signup-error-message">{this.state.confirmPasswordError}</p>
+                                            ) : null
                                         }
                                         <input id="signupconfPassword"
                                             type="password"
