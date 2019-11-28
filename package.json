@@ -76,7 +76,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://smart-chat-backend.herokuapp.com",
+  "proxy": "https://smart-chat-backend.herokuapp.com/",
   "browserslist": {
     "production": [
       ">0.2%",
