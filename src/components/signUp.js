@@ -29,7 +29,7 @@ class SignUp extends Component {
         if(isValidData){
             axios({
                 method: 'post',
-                url: '/signUp',
+                url: 'https://smart-chat-backend.herokuapp.com/signUp',
                 data: userjson,
                 headers:{
                     'Content-Type': 'application/json'
