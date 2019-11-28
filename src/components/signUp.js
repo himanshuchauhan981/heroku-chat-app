@@ -27,16 +27,32 @@ class SignUp extends Component {
 
         let isValidData = this.validate(username,email,password,confirmPassword)
         if(isValidData){
-            axios.post('/signUp', userjson)
-            .then((res) => {
+            axios({
+                method: 'post',
+                url: '/signUp',
+                data: userjson,
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+              }).then((res)=>{
                 if (res.data.isSignUpSuccessful === true) {
-                    this.props.history.push('/')
-                }
-                else {
-                    this.props.setSignUpFailError('User already Existed')
-                    this.props.history.push('/SignUp')
-                }
-            })
+                            this.props.history.push('/')
+                        }
+                        else {
+                            this.props.setSignUpFailError('User already Existed')
+                            this.props.history.push('/SignUp')
+                        }
+              });
+            // axios.post('/signUp', userjson)
+            // .then((res) => {
+            //     if (res.data.isSignUpSuccessful === true) {
+            //         this.props.history.push('/')
+            //     }
+            //     else {
+            //         this.props.setSignUpFailError('User already Existed')
+            //         this.props.history.push('/SignUp')
+            //     }
+            // })
         }
     }
 
