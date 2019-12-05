@@ -27,7 +27,14 @@ class SignUp extends Component {
 
         let isValidData = this.validate(username,email,password,confirmPassword)
         if(isValidData){
-            axios.post('/signUp', userjson)
+            axios({
+                method: 'post',
+                url: 'https://smart-chat-backend.herokuapp.com/signUp',
+                data: userjson,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
             .then((res) => {
                 if (res.data.isSignUpSuccessful === true) {
                     this.props.history.push('/')
