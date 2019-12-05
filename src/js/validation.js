@@ -28,10 +28,17 @@ const checkEmail = (email)=>{
     else return null
 }
 
+
+const checkGroupNameField = (groupName)=>{
+    if(groupName === "") return "Required Group Name"
+    else return null
+}
+
 module.exports ={
     checkUsername,
     checkPassword,
     checkConfirmPassword,
     checkLoginFields,
-    checkEmail
+    checkEmail,
+    checkGroupNameField
 }

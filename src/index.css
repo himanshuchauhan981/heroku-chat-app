@@ -1,0 +1,12 @@
+body{
+    background-image: url('https://i2.wp.com/onlyvectorbackgrounds.com/wp-content/uploads/2019/03/Subtle-Lines-Abstract-Gradient-Background-Blue.jpg?resize=1024%2C725&ssl=1');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#groupImageError{
+    color: red;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+}

@@ -3,7 +3,6 @@ import '../../css/chatbox.css'
 import { createMessage } from '../../Factories/factories'
 
 import {connect} from 'react-redux'
-import axios from 'axios';
 // import * as actionTypes from '../../Store/Actions'
 
 class ChatBox extends Component{
@@ -14,37 +13,24 @@ class ChatBox extends Component{
             messageArray:[]
         }
         this.socket = this.props.socket
-        this.socket.on('RECIEVE_MESSAGE',(messages)=>{
-            this.setState({
-                messageArray : messages
-            })
-        })
-    }
-
-    getAllMessages = ()=>{
-        axios({
-            method :'get',
-            url:'https://smart-chat-backend.herokuapp.com/chats',
-            params:{
-                room: this.props.room
-            },
-            headers: {
-                'Content-Type': 'application/json'
+        this.socket.on('RECEIVE_MESSAGE',(messages,receiver)=>{
+            if(this.props.receiver.toLowerCase() === receiver){
+                this.setState({
+                    messageArray : messages
+                })
+            }
+            else{
+                this.socket.emit('UPDATE_NEW_MESSAGE',this.props.currentUser)
             }
         })
-        .then((messages)=>{
-            this.setState({messageArray:messages.data})
+
+        this.socket.on('SHOW_USER_MESSAGES',(messages,receiver)=>{
+            if(this.props.receiver.toLowerCase() === receiver.toLowerCase()){
+                this.setState({
+                    messageArray : messages
+                })
+            }
         })
-    }
-
-    componentDidMount(){
-        this.getAllMessages()
-    }
-
-    componentDidUpdate(prevProps){
-        if(prevProps.room !== this.props.room){
-            this.getAllMessages()
-        }
     }
 
     setMessage = (event)=>{
@@ -113,7 +99,6 @@ class ChatBox extends Component{
 const mapStateToProps = state => {
     return {
         receiver : state.homeReducer.receiver,
-        socket : state.homeReducer.socket,
         room : state.homeReducer.room,
         currentUser : state.homeReducer.currentUser
     }

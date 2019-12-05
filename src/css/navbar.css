@@ -1,0 +1,19 @@
+.navbar-transparent{
+    background-color: transparent;
+}
+
+.hover-effect{
+    transition: all .4s ease;
+    margin-right: 10px;
+}
+
+.hover-effect:hover{
+    transform: scale(1.5)
+}
+
+.nav-link:hover{
+    color: #1850D0!important;
+}
+
+
+

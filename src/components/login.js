@@ -4,6 +4,8 @@ import '../css/login.css'
 import { checkLoginFields } from '../js/validation'
 import { GoogleLogin } from 'react-google-login'
 import { googleCredentials } from '../keys'
+import * as actionTypes from '../Store/Actions'
+import {connect} from 'react-redux'
 
 class Login extends Component{
     constructor(props){
@@ -15,6 +17,7 @@ class Login extends Component{
         }
     }
     componentDidMount(){
+        console.log('login page')
         let obj
         let status = false
         if(localStorage.getItem('tokenMethod') === "Email"){
@@ -26,19 +29,14 @@ class Login extends Component{
             status = true
         }
         if(status){
-            axios({
-                method:'get',
-                url:'https://smart-chat-backend.herokuapp.com/login/validate',
-                params : obj,
-                headers : {
-                    'Content-Type': 'application/json'
-                }
+            axios.get('/login/validate',{
+                params : obj
             })
             .then((response)=>{
                 if(response.data.validate){
+                    console.log('validated')
                     this.props.history.push({
                         pathname: '/home',
-                        state: { currentUser: response.data.currentUser }
                     })
                 }
             })
@@ -53,26 +51,19 @@ class Login extends Component{
         let loginpassword = event.target.elements.loginpassword.value
         let isTrue = this.validate(loginusername,loginpassword);
         if(isTrue){
-            axios({
-                method : 'post',
-                url : 'https://smart-chat-backend.herokuapp.com/login',
-                data : {
-                    loginusername: loginusername,
-                    loginpassword: loginpassword
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then((res)=>{
+            axios.post('/login',{
+                loginusername: loginusername,
+                loginpassword: loginpassword
+            })
+            .then((res)=>{
                 if(res.data.isLoginSuccessful === true){
                     localStorage.setItem('token',res.data.token)
                     localStorage.setItem('tokenMethod','Email')
                     localStorage.setItem('username',loginusername)
+                    this.props.setCurrentUser(loginusername)
                     this.props.history.push({
-                        pathname: '/home',
-                        state: { currentUser: loginusername }
-                    })
-                }
+                        pathname: '/home'
+                    })}
             })
             .catch((err)=>{
                 console.log(err)
@@ -104,9 +95,9 @@ class Login extends Component{
             if(res.data.isSignUpSuccessful){
                 localStorage.setItem('token',token)
                 localStorage.setItem('tokenMethod','Google')
+                this.props.setCurrentUser(this.props.location.state.currentUser)
                 this.props.history.push({
-                    pathname: '/home',
-                    state: { currentUser: this.state.loginusername }
+                    pathname: '/home'
                 })
             }
         })
@@ -118,7 +109,7 @@ class Login extends Component{
 
     render(){
         return(
-            <div className="container">
+            <div className="container login-container">
                 <div className="card pl-3 pr-3 sign-in-card">
                     <div className="row">
                         <div className="col-md-6">
@@ -187,5 +178,10 @@ class Login extends Component{
     }
 }
 
+const mapDispatchToProps = dispatch =>{
+    return {
+        setCurrentUser : (currentUser) => dispatch({type:actionTypes.SET_CURRENT_USER, currentUser: currentUser})
+    }
+}
 
-export default Login
+export default connect(null,mapDispatchToProps)(Login)

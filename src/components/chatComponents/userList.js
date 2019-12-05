@@ -5,25 +5,25 @@ import { connect } from 'react-redux'
 import * as actionTypes from '../../Store/Actions'
 
 class UserList extends Component{
-
-    generatorRoomID = async (receiver)=>{
+    generateRoomID = async (receiver)=>{
         let sender = this.props.currentUser
         let socket = this.props.socket
         let roomID = createRoom(sender,receiver)
         this.props.setRoomAndReceiver(receiver,roomID)
-        socket.emit('JOIN_ROOM',roomID)
+        socket.emit('JOIN_ROOM',roomID,sender,receiver)
     }
 
     render(){
         const userlist = this.props.userList.map(user =>{
-            if(user.username !== this.props.currentUser){
+            if(user.username.toLowerCase() !== this.props.currentUser){
                 user.username = user.username.substring(0,1).toLocaleUpperCase() + user.username.substring(1)
                 return(
-                    <div className="show-users" key={user._id} onClick = { ()=>this.generatorRoomID(user.username) }>
+                    <div className="show-users" key={user._id} onClick = { ()=>this.generateRoomID(user.username) }>
                         <img src="https://www.w3schools.com/howto/img_avatar.png" className="rounded-circle" alt="" />
                         <div className="userlist-text">
                             <p className="userlist-name">{ user.username }</p>
-                            <p className="userlist-status">{user.usersInfo[0].isActive}</p>
+                            <p className="userlist-messageCount"> { user.count } new messages</p>
+                            <p className="userlist-status">{user.isActive}</p>
                         </div>
                     </div>
                 )
@@ -45,8 +45,7 @@ class UserList extends Component{
 
 const mapStateToProps = state =>{
     return {
-        currentUser : state.homeReducer.currentUser,
-        socket : state.homeReducer.socket
+        currentUser : state.homeReducer.currentUser
     }
 }
 

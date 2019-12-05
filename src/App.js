@@ -4,19 +4,21 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import Login from './components/login'
 import SignUp from './components/signUp'
 import Home from './components/home'
+import CreateGroup from './components/createGroup'
 
 
 function App() {
 	return (
-    	<BrowserRouter>
+		<BrowserRouter>
 			<Switch>
 				<Route exact path="/" component={Login} />
-				<Route exact path="/login" component={Login} />
-				<Route exact path="/signup" component={SignUp} />
-				<Route exact path="/home" component={Home} />
+				<Route path="/login" component={Login} />
+				<Route path="/signup" component={SignUp} />
+				<Route path="/home" component={Home} />
+				<Route path="/group" component={CreateGroup} />
 			</Switch>
-    	</BrowserRouter>
-  	);
+		</BrowserRouter>
+	);
 }
 
 export default App;

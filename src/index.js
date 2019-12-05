@@ -6,27 +6,31 @@ import * as serviceWorker from './serviceWorker';
 
 import { createStore,combineReducers } from 'redux'
 import homeReducer from './Store/Reducers/homeReducer'
-// import { persistStore, persistReducer } from 'redux-persist'
-// import { PersistGate } from 'redux-persist/integration/react'
-// import storage from 'redux-persist/lib/storage'
+import GroupChatReducer from './Store/Reducers/groupChatReducer'
+import { persistStore, persistReducer } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+import storage from 'redux-persist/lib/storage'
 import { Provider } from 'react-redux'
+import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
 
 const rootReducer = combineReducers({
-    homeReducer : homeReducer
+    homeReducer : homeReducer,
+    groupChatReducer : GroupChatReducer
 })
 
-// const persistConfig = {
-//     key: 'root',
-//     storage,
-// }
+const persistConfig = {
+    key: 'root',
+    storage,
+    stateReconciler: hardSet,
+}
 
-// const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-let store = createStore(rootReducer)
-// let persistor = persistStore(store)
-ReactDOM.render(<Provider store = { store }><App /></Provider>, document.getElementById('root'));
+let store = createStore(persistedReducer)
+let persistor = persistStore(store)
+// ReactDOM.render(<Provider store = { store }><App /></Provider>, document.getElementById('root'));
 
-// ReactDOM.render(<Provider store = { store }><PersistGate loading={null} persistor={persistor}><App /></PersistGate></Provider>, document.getElementById('root'));
+ReactDOM.render(<Provider store = { store }><PersistGate loading={null} persistor={persistor}><App /></PersistGate></Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

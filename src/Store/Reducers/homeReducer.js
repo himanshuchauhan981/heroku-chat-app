@@ -1,19 +1,12 @@
 const initialState = {
     currentUser :'',
-    socket : '',
     receiver : '',
     room : '',
     activeChatWindow : false
 }
 
 const homeReducer = (state = initialState,action)=>{
-    if(action.type === 'SET_USER_SOCKET'){
-        return {
-            ...state,
-            socket: action.socket
-        }
-    }
-    else if(action.type === 'SET_CURRENT_USER'){
+    if(action.type === 'SET_CURRENT_USER'){
         return {
             ...state,
             currentUser : action.currentUser

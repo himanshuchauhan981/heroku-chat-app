@@ -23,8 +23,8 @@ const createUser = (user,id)=>{
 const createMessage = (sender,receiver,msg,room)=>{
     const message = {
         text: msg,
-        receiver: receiver,
-        sender: sender,
+        receiver: receiver.toLowerCase(),
+        sender: sender.toLowerCase(),
         room: room
     }
     return message
