@@ -37,7 +37,7 @@ class createGroup extends Component {
             formData.append('groupImage', this.state.image)
             formData.append('groupImageType', this.state.image.type)
             formData.append('admin', this.props.currentUser)
-            let url = 'http://localhost:9000/group'
+            let url = 'https://smart-chat-backend.herokuapp.com/group'
             let config = {
                 headers: { 'content-type': 'multipart/form-data' }
             }

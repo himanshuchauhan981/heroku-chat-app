@@ -14,7 +14,13 @@ class AddChatMembers extends Component {
         }
     }
     componentDidMount(){
-        axios.get('/group/addMembers')
+        axios({
+            method:'get',
+            url:'https://smart-chat-backend.herokuapp.com/group/addMembers',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
         .then((res)=>{
             this.setState({
                 groupMembers : res.data
