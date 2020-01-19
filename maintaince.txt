@@ -1,0 +1,18 @@
+Maintenance
+
+1) When two private users are talking to each other and then one person sends message, 
+it is showing as "1 new message" but not showing on chat box if activechatwindow is reciever only.
+
+2) Online and offline status should be in different color
+
+3) Active chat user should be highlighted in userlist
+
+4) Date of message sent is not shown
+
+5) Total messages should be shown dynamically
+
+6) Side Option 3 dots is not working
+
+7) Sender user message should be shown on the right side
+
+8) set online status to offline when user logs out successfully
