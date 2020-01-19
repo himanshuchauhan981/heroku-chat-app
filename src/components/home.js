@@ -1,70 +1,73 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import io from 'socket.io-client'
+
 import ChatBox from './chatComponents/chatBox'
 import UserList from './chatComponents/userList'
-import io from 'socket.io-client'
 import Navbar from './navbar'
-
-import { socketUrl } from '../keys'
+import { baseUrl } from '../keys'
 import { createUser } from '../Factories/factories'
-import * as actionTypes from '../Store/Actions'
-import {connect} from 'react-redux'
-import { Redirect } from 'react-router-dom'
 
-class Home extends Component{
-    constructor(props){
+
+class Home extends Component {
+    constructor(props) {
         super(props)
-        this.socket = io(socketUrl)
+        this.socket = io(baseUrl)
         this.state = {
             activeUserList: []
         }
     }
-    
-    componentDidMount(){
+
+    componentDidMount() {
         this.initiateSocket()
     }
 
-    initiateSocket = async () =>{
-        this.setUser(this.props.currentUser)
+    initiateSocket = async () => {
+        let currentUser = this.props.currentUser
+        this.setUser(currentUser)
     }
 
-    setUser = (user)=>{
-        this.socket.on('connect',()=>{
-            const createuser = createUser(user,this.socket.id)
-            this.socket.emit('CONNECT_USERS', createuser,this.props.currentUser)
+    setUser = (user) => {
+        this.socket.on('connect', () => {
+            const createuser = createUser(user, this.socket.id)
+            this.socket.emit('CONNECT_USERS', createuser, this.props.currentUser)
         })
-        
-        this.socket.on('CONNECTED_USERS',(activeUsers)=>{
-            this.setState({activeUserList: activeUsers})
+
+        this.socket.on('CONNECTED_USERS', (activeUsers) => {
+            this.setState({ activeUserList: activeUsers })
         })
     }
 
-    render(){
-        if(this.props.currentUser === ""){
-            console.log('signing out')
-            return <Redirect to="/login" />
-        }
-        return(
+    signOut = ()=>{
+        localStorage.clear()
+        this.props.history.push('/login')
+    }
+
+    render() {
+        return (
             <div className="container-fluid">
                 <Navbar 
-                    socket = { this.socket }
+                    signOut = { this.signOut }
                 />
-                <div className="row">
-                    <div className="col-md-4 col-sm-12">
-                        <UserList 
-                            socket = { this.socket }
-                            userList = {this.state.activeUserList}
-                        />
+                <div className="home-container">
+                    <div className="row">
+                        <div className="col-md-4 col-sm-12">
+                            <UserList
+                                socket={this.socket}
+                                userList={this.state.activeUserList}
+                            />
+                        </div>
+                        {
+                            this.props.activeChatWindow ? (
+                                <div className="col-lg-8 col-md-8">
+                                    <ChatBox
+                                        socket={this.socket}
+                                    />
+                                </div>
+                            ) : null
+                        }
+
                     </div>
-                    {
-                        this.props.activeChatWindow ? (
-                            <div className="col-lg-8 col-md-8">
-                                <ChatBox 
-                                    socket = {this.socket }
-                                />
-                            </div>
-                        ):null
-                    }
-                    
                 </div>
             </div>
         )
@@ -72,17 +75,13 @@ class Home extends Component{
 }
 
 
-const mapStateToProps = state =>{
+const mapStateToProps = state => {
     return {
-        socket : state.homeReducer.socket,
-        currentUser : state.homeReducer.currentUser,
-        activeChatWindow : state.homeReducer.activeChatWindow
+        socket: state.socket,
+        currentUser: state.currentUser,
+        activeChatWindow: state.activeChatWindow
     }
 }
 
-const mapDispatchToProps = dispatch =>{
-    return {
-        setCurrentUser : (currentUser) => dispatch({type:actionTypes.SET_CURRENT_USER, currentUser: currentUser})
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Home)
+
+export default connect(mapStateToProps, null)(Home)

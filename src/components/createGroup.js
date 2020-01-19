@@ -4,37 +4,38 @@ import AddChatMembers from './chatComponents/addChatMembers'
 import '../css/groupChat.css'
 import Navbar from './navbar'
 
-import {connect} from 'react-redux'
-
-class CreateGroup extends Component {
-    render() {
-        return (
+class CreateGroup extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            addGroupMembers : false
+        }
+    }
+    render(){
+        return(
             <div className="container-fluid">
                 <Navbar />
                 <div className="container groupContainer">
-                    <div className="row">
-                        <div className="card groupCard">
-                            {
-                                this.props.addGroupMembersComponent ?
-                                    <AddChatMembers
-                                        heading="Add members"
-                                    /> :
-                                    <CreateGroupName
-                                        heading="Create Group"
-                                    />
-                            }
-                        </div>
+                <div className="row">
+                    <div className="card groupCard">
+                        {
+                            this.state.addGroupMembers ? 
+                            <AddChatMembers 
+                                heading = "Add members"
+                            />:
+                            <CreateGroupName 
+                                heading = "Create Group"
+                            />
+                        }
                     </div>
                 </div>
             </div>
+            </div>
+            
+            
+            
         )
     }
 }
 
-const mapStateToProps = state =>{
-    return{
-        addGroupMembersComponent : state.groupChatReducer.addGroupMembersComponent
-    }
-}
-
-export default connect(mapStateToProps)(CreateGroup)
+export default CreateGroup

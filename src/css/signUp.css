@@ -1,3 +1,5 @@
+.signup-container{ margin-top: 7em }
+
 .sign-up-card{
     width: 700px;
     margin: 0 auto;
@@ -28,4 +30,9 @@
     color: red;
     font-size: 13px;
     margin-bottom: 0;
+}
+
+.signup-submit{
+    background-color: #639;
+    color: white;
 }

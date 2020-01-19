@@ -45,7 +45,7 @@ class UserList extends Component{
 
 const mapStateToProps = state =>{
     return {
-        currentUser : state.homeReducer.currentUser
+        currentUser : state.currentUser
     }
 }
 

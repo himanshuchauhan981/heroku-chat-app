@@ -80,16 +80,16 @@ class ChatBox extends Component{
                 <div className="chat-body">
                     { messageList }
                 </div>
-                <form>
-                <div className="chat-footer" onChange = {this.setMessage}>
-                    <input type="text" 
-                        className="send-chat" 
-                        placeholder="Type your messsage...." 
-                        value = {this.state.message }
-                        onChange = {this.setMessage }
-                    />
-                    <span className="send-button" onClick = {this.sendMessage } ><i className="fa fa-send"></i></span>
-                </div>
+                <form onSubmit={ this.sendMessage }>
+                    <div className="chat-footer" onChange = {this.setMessage}>
+                        <input type="text" 
+                            className="send-chat" 
+                            placeholder="Type your messsage...." 
+                            value = {this.state.message }
+                            onChange = {this.setMessage }
+                        />
+                        <span className="send-button" onClick = {this.sendMessage } ><i className="fa fa-send"></i></span>
+                    </div>
                 </form>
             </div>
         )
@@ -98,9 +98,9 @@ class ChatBox extends Component{
 
 const mapStateToProps = state => {
     return {
-        receiver : state.homeReducer.receiver,
-        room : state.homeReducer.room,
-        currentUser : state.homeReducer.currentUser
+        receiver : state.receiver,
+        room : state.room,
+        currentUser : state.currentUser
     }
 }
 

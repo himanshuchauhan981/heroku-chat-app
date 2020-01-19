@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+
 import { createUserData } from '../Factories/factories'
-import { checkUsername, checkPassword, checkConfirmPassword, checkEmail} from '../js/validation'
+import { checkUsername, checkPassword, checkConfirmPassword, checkEmail } from '../js/validation'
+import { baseUrl } from '../keys'
 import '../css/signUp.css'
 
 class SignUp extends Component {
@@ -29,7 +31,7 @@ class SignUp extends Component {
         if(isValidData){
             axios({
                 method: 'post',
-                url: 'https://smart-chat-backend.herokuapp.com/signUp',
+                url: `${baseUrl}/api/signUp`,
                 data: userjson,
                 headers: {
                     'Content-Type': 'application/json'
@@ -40,7 +42,10 @@ class SignUp extends Component {
                     this.props.history.push('/')
                 }
                 else {
-                    this.props.setSignUpFailError('User already Existed')
+                    this.setState({
+                        errorMessage: res.data.msg
+                    })
+                    // this.props.setSignUpFailError('User already Existed')
                     this.props.history.push('/SignUp')
                 }
             })
@@ -78,14 +83,14 @@ class SignUp extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="signup-container">
                 <div className="card pl-3 pr-3 sign-up-card">
                     <div className="row">
                         <div className="col-md-6">
                             <p className="project-title">Smart Chat</p>
                             <div className="mt-4 mb-4">
-                                <a href="/login"><button type="button" className="btn mb-2 btn-block btn-rounded btn-outline-primary"><i className="fa fa-envelope"> Sign up with Email</i></button></a>
-                                <button type="button" className="btn btn-block btn-rounded btn-outline-danger"><i className="fa fa-google"> Sign up with Google</i></button>
+                                <a href="/login"><button type="button" className="btn mb-2 btn-block btn-rounded btn-outline-primary"><i className="fa fa-envelope"> Sign in with Email</i></button></a>
+                                <button type="button" className="btn btn-block btn-rounded btn-outline-danger"><i className="fa fa-google"> Sign in with Google</i></button>
                             </div>
                         </div>
                         <div className="col-md-6">
@@ -149,9 +154,10 @@ class SignUp extends Component {
                                         <input id="signupconfPassword"
                                             type="password"
                                             placeholder="Re enter your password"
-                                            name="signupconfPassword" />
+                                            name="signupconfPassword"
+                                        />
                                     </div>
-                                    <button type="submit" className="btn btn-rounded btn-primary btn-block mt-3 mb-4">Sign up</button>
+                                    <button type="submit" className="btn signup-submit btn-rounded btn-block mt-3 mb-4">Sign up</button>
                                 </form>
                             </div>
                         </div>

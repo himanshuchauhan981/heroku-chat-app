@@ -5,7 +5,7 @@ const initialState = {
     activeChatWindow : false
 }
 
-const homeReducer = (state = initialState,action)=>{
+const rootReducer = (state = initialState,action)=>{
     if(action.type === 'SET_CURRENT_USER'){
         return {
             ...state,
@@ -23,4 +23,4 @@ const homeReducer = (state = initialState,action)=>{
     return state
 }
 
-export default homeReducer
+export default rootReducer
