@@ -1,5 +1,0 @@
-v 1.0.0
-
-1) Sign Up functionality added
-2) Login functionality added
-3) private messaging feature
