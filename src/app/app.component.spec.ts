@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'chatApp'`, () => {
+  it(`should have as title 'smart-chat-app'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('chatApp');
+    expect(app.title).toEqual('smart-chat-app');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('chatApp app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('smart-chat-app app is running!');
   });
 });
