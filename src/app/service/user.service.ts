@@ -7,16 +7,16 @@ import { SESSION_STORAGE, WebStorageService } from 'angular-webstorage-service'
 })
 export class UserService {
 
-	baseUrl : string = "http://localhost:3000"
+	baseUrl : string = "https://smart-chat-api.herokuapp.com/"
 
 	constructor(private http: HttpClient, @Inject(SESSION_STORAGE) private storage: WebStorageService) { }
 
 	saveNewUser(userdata) {
-		return this.http.post('/api/signup', userdata)
+		return this.http.post(`${this.baseUrl}/api/signup`, userdata)
 	}
 
 	loginExistingUser(logindata) {
-		return this.http.post('/api/login', logindata)
+		return this.http.post(`${this.baseUrl}/api/login`, logindata)
 	}
 	
 	storeJWTToken  = (token) =>{
@@ -32,7 +32,7 @@ export class UserService {
 				'Authorization': token
 			})
 		}
-		return this.http.get('/api/validateToken',httpOptions)
+		return this.http.get(`${this.baseUrl}/api/validateToken`,httpOptions)
 	}
 
 	removeJWTToken = ()=>{
