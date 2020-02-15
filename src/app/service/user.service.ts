@@ -32,7 +32,7 @@ export class UserService {
 				'Authorization': token
 			})
 		}
-		return this.http.get(`${this.baseUrl}/api/validateToken`,httpOptions)
+		return this.http.get(`${this.baseUrl}api/validateToken`,httpOptions)
 	}
 
 	removeJWTToken = ()=>{
