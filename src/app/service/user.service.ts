@@ -12,11 +12,11 @@ export class UserService {
 	constructor(private http: HttpClient, @Inject(SESSION_STORAGE) private storage: WebStorageService) { }
 
 	saveNewUser(userdata) {
-		return this.http.post(`${this.baseUrl}/api/signup`, userdata)
+		return this.http.post(`${this.baseUrl}api/signup`, userdata)
 	}
 
 	loginExistingUser(logindata) {
-		return this.http.post(`${this.baseUrl}/api/login`, logindata)
+		return this.http.post(`${this.baseUrl}api/login`, logindata)
 	}
 	
 	storeJWTToken  = (token) =>{
