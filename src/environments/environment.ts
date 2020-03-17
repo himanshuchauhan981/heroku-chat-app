@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl : 'https://smart-chat-api.herokuapp.com'
+  baseUrl : 'http://localhost:3000'
 };
 
 /*
