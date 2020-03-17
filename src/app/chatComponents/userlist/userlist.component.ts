@@ -14,13 +14,14 @@ export class UserlistComponent implements OnInit {
 	username: string
 
 	constructor(
-		private chatService: ChatService,
+		public chatService: ChatService,
 		private userService: UserService
 	) { }
 
 	ngOnInit() {
 		this.chatService.userListObservable.subscribe((data)=>{
 			this.activeUserList = data
+			this.chatService.activeUserList = data
 		})
 
 		this.userService.getUsername()

@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 
 import { UserService } from '../service/user.service'
+import { Title } from '@angular/platform-browser'
 
 @Component({
 	selector: 'app-login',
@@ -13,29 +14,31 @@ export class LoginComponent implements OnInit {
 
 	loginError : string = null
 
-	constructor(private userService : UserService, private router: Router) { }
+	constructor(
+		private userService : UserService,
+		private router: Router,
+		private titleService: Title
+	) { }
 
-	ngOnInit() { }
+	ngOnInit(){
+		this.titleService.setTitle('Login')
+	}
 
 	loginForm = new FormGroup({
-		loginusername : new FormControl('',Validators.required),
-		loginpassword : new FormControl('',Validators.required)
+		username : new FormControl('',Validators.required),
+		password : new FormControl('',Validators.required)
 	})
 
-	get loginusername(){ return this.loginForm.get('loginusername') }
-
-	get loginpassword(){ return this.loginForm.get('loginpassword') }
-
-	loginUser(loginForm){
+	login(loginForm){
 		if(loginForm.status === 'INVALID') return
 
-		this.userService.loginExistingUser(loginForm.value)
+		this.userService.login(loginForm.value)
 		.subscribe((res :any)=>{
 			if(!res.loginStatus){
 				this.loginError = res.loginError
 			}
 			else{
-				this.userService.storeJWTToken(res.token)
+				this.userService.storeToken(res.token)
 				this.router.navigate(['home'])
 			}
 		})

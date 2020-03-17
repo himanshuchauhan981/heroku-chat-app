@@ -27,11 +27,11 @@
         <div class="chat-footer">
             <input
                 type="text"
-                (input)="typingMessage()" 
+                (input)="typingMessage($event)" 
                 class="send-chat" 
                 placeholder="Type your messsage...."
                 name="message"
-                [formControl]="message"
+                formControlName="message"
                 #clearInput
             >
             <span class="send-button" onClick="sendMessage()"><i class="fa fa-send"></i></span>
